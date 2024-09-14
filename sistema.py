@@ -22,7 +22,8 @@ def depositar():
     if valor_deposito > 0:
         saldo += valor_deposito
         depositos.append(valor_deposito)
-        d_deposito = agora.strftime("%d/%m/%Y %H:%M:%S")
+        agora_atual_deposito = datetime.now()
+        d_deposito = agora_atual_deposito.strftime("%d/%m/%Y %H:%M:%S")
         data_deposito.append(d_deposito)
 
     else:
