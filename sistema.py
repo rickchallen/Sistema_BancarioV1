@@ -40,7 +40,8 @@ def saque():
             else:
                 saldo -= valor_saque
                 saques.append(valor_saque)
-                data_format = agora.strftime("%d/%m/%Y %H:%M:%S") # Deixa a Data Atual Formatada
+                agora_atual_saque = datetime.now() #captura a Data Atual no momento em que é feito o saque
+                data_format = agora_atual_saque.strftime("%d/%m/%Y %H:%M:%S") # Deixa a Data Atual Formatada
                 data_do_saque.append(data_format)
                 sacado += 1
         elif valor_saque <= 500 and sacado == LIMITE_DE_SAQUE:
