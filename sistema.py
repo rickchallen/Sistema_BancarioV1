@@ -22,7 +22,8 @@ def depositar():
     if valor_deposito > 0:
         saldo += valor_deposito
         depositos.append(valor_deposito)
-
+        d_deposito = agora.strftime("%d/%m/%Y %H:%M:%S")
+        data_deposito.append(d_deposito)
 
     else:
         print("Erro Na Operação! Digite Um Valor Válido ")
@@ -58,29 +59,35 @@ def extratos():
     print("###########    SALDO   ############")
     print(f"Saldo: R$ {saldo:.2f}")
     #Ternario utlizado para Informar se Houve Saques
-    info_saque = "Ainda Não Há Saques" if not saques else " "
+    info_saque = "Ainda Não Há Saques " if not saques and  depositos else "  "
     print("############      Saques    ################")
     print(info_saque)
     for saque,data_s in zip(saques,data_do_saque):
         print(f"Saque :R$ {saque:.2f} -- {data_s}")
     print("################# Depositos ################:")
-    for deposito in depositos:
-        print(f"Deposito:R$ {deposito:.2f}")
+    for deposito,data_d in zip(depositos,data_deposito):
+        print(f"Deposito:R$ {deposito:.2f} -- {data_d}")
 
 while True:
 
     print(menu)
-    parada = True
-    opcao = int(input("Qual Sua Opção? "))
-    match(opcao):
-        case 1:
-            depositar()
-        case 2:
-            saque()
-        case 3:
-            extratos()
-        case 0:
-            parada = False
-    if parada == False:
-        print("Programa Finalizado Com Sucesso")
-        break
+    try:
+
+        parada = True
+        opcao = int(input("Qual Sua Opção? "))
+        match(opcao):
+            case 1:
+                depositar()
+            case 2:
+                saque()
+            case 3:
+                extratos()
+            case 0:
+                parada = False
+            case _:
+                print("Digite Uma Opção Válida")
+        if parada == False:
+            print("Programa Finalizado Com Sucesso")
+            break
+    except ValueError:
+        print("Digite Uma Opção Válida ")
