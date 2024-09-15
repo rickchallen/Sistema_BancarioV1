@@ -1,9 +1,8 @@
 from datetime import datetime
 print("Desenvolvendo Sistemas Bancários!")
-
+# Variáveis Globais
 saldo, depositos, saques, data_do_saque, data_deposito = 0.0, [], [], [], []
-agora = datetime.now() # Captura a data Atual
-sacado = 0
+numero_saques = 0
 
 menu = '''
     ####### Sistema Bancário #######
@@ -32,8 +31,8 @@ def depositar():
 def saque():
     LIMITE_DE_SAQUE = 3
     global saldo
-    global sacado
-    if sacado < LIMITE_DE_SAQUE: #verifica se já foi excedido o limite de saque
+    global numero_saques
+    if numero_saques < LIMITE_DE_SAQUE: #verifica se já foi excedido o limite de saque
         valor_saque = float(input("Quanto Deseja Sacar? R$"))
         if valor_saque > 0:#verifica se o valor que o usuario esta colocando é positivo
             if valor_saque <= 500: #verifica se o valor do saque segue a regra de R$500 por saque
@@ -45,14 +44,14 @@ def saque():
                     agora_atual_saque = datetime.now() #captura a Data Atual no momento em que é feito o saque
                     data_format = agora_atual_saque.strftime("%d/%m/%Y %H:%M:%S") # Deixa a Data Atual Formatada
                     data_do_saque.append(data_format)
-                    sacado += 1
-                    print(f"Quantidade de Saques {sacado}")
+                    numero_saques += 1
+                    print(f"Quantidade de Saques {numero_saques}")
             else:
                 print("Você Não Pode Fazer um Saque acima de R$500")
         else:
             print("Erro Na Operação! Digite um Valor positivo!")
     else:
-        print("Limite de Saque Excedido! Você não Pode fazer mais que três Saque!")
+        print("Limite de Saque Excedido! Você não Pode fazer mais que três Saques!")
 
 
 def extratos():
