@@ -3,7 +3,7 @@ print("Desenvolvendo Sistemas Bancários!")
 
 saldo, depositos, saques, data_do_saque, data_deposito = 0.0, [], [], [], []
 agora = datetime.now() # Captura a data Atual
-LIMITE_DE_SAQUE = 3
+sacado = 0
 
 menu = '''
     ####### Sistema Bancário #######
@@ -17,7 +17,7 @@ menu = '''
 '''
 
 def depositar():
-    valor_deposito = float(input("Quanto deseja Depositar?"))
+    valor_deposito = float(input("Quanto deseja Depositar? R$"))
     global saldo
     if valor_deposito > 0:
         saldo += valor_deposito
@@ -30,27 +30,29 @@ def depositar():
         print("Erro Na Operação! Digite Um Valor Válido ")
 
 def saque():
-    sacado = 0.0
+    LIMITE_DE_SAQUE = 3
     global saldo
-    valor_saque = float(input("Quanto Deseja Sacar?"))
-    if valor_saque > 0:
-        if valor_saque <= 500 and sacado < LIMITE_DE_SAQUE:
-            if (saldo - valor_saque) < 0:
-                print("Saldo Insuficiente")
+    global sacado
+    if sacado < LIMITE_DE_SAQUE: #verifica se já foi excedido o limite de saque
+        valor_saque = float(input("Quanto Deseja Sacar? R$"))
+        if valor_saque > 0:#verifica se o valor que o usuario esta colocando é positivo
+            if valor_saque <= 500: #verifica se o valor do saque segue a regra de R$500 por saque
+                if (saldo - valor_saque) < 0:
+                    print("Saldo Insuficiente")
+                else:
+                    saldo -= valor_saque
+                    saques.append(valor_saque)
+                    agora_atual_saque = datetime.now() #captura a Data Atual no momento em que é feito o saque
+                    data_format = agora_atual_saque.strftime("%d/%m/%Y %H:%M:%S") # Deixa a Data Atual Formatada
+                    data_do_saque.append(data_format)
+                    sacado += 1
+                    print(f"Quantidade de Saques {sacado}")
             else:
-                saldo -= valor_saque
-                saques.append(valor_saque)
-                agora_atual_saque = datetime.now() #captura a Data Atual no momento em que é feito o saque
-                data_format = agora_atual_saque.strftime("%d/%m/%Y %H:%M:%S") # Deixa a Data Atual Formatada
-                data_do_saque.append(data_format)
-                sacado += 1
-        elif valor_saque <= 500 and sacado == LIMITE_DE_SAQUE:
-            print("Você Não Pode fazer mais de Três Saques ")
+                print("Você Não Pode Fazer um Saque acima de R$500")
         else:
-            print("Você Não Pode Fazer um Saque acima de R$500")
+            print("Erro Na Operação! Digite um Valor positivo!")
     else:
-        print("Erro Na Operação! Digite um Valor positivo!")
-
+        print("Limite de Saque Excedido! Você não Pode fazer mais que três Saque!")
 
 
 def extratos():
@@ -76,7 +78,7 @@ while True:
     try:
 
         parada = True
-        opcao = int(input("Qual Sua Opção? "))
+        opcao = int(input("Escolha Uma Das Opções? "))
         match(opcao):
             case 1:
                 depositar()
@@ -87,9 +89,9 @@ while True:
             case 0:
                 parada = False
             case _:
-                print("Digite Uma Opção Válida")
+                print("Digite Uma Opção Válida")# aqui ele verifica se o usuario digitou algum numero diferente das opções Fornecidas
         if parada == False:
             print("Programa Finalizado Com Sucesso")
             break
-    except ValueError:
+    except ValueError: #aqui ele verifica se foi clicado a tecla enter
         print("Digite Uma Opção Válida ")
